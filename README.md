@@ -134,12 +134,12 @@ python main.py --config=config/SynergyNeRF/official/{scene}.yaml
 ## Bibliography
 ```bibtext
 @inproceedings{
-kim2025trainingfree,
-title={Training-Free Safe Denoisers for Safe Use of Diffusion Models},
-author={Mingyu Kim and Dongjun Kim and Amman Yusuf and Stefano Ermon and Mijung Park},
-booktitle={The Thirty-ninth Annual Conference on Neural Information Processing Systems},
-year={2025},
-url={https://openreview.net/forum?id=QQS7TudonJ}
+  kim2025trainingfree,
+  title={Training-Free Safe Denoisers for Safe Use of Diffusion Models},
+  author={Mingyu Kim and Dongjun Kim and Amman Yusuf and Stefano Ermon and Mijung Park},
+  booktitle={The Thirty-ninth Annual Conference on Neural Information Processing Systems},
+  year={2025},
+  url={https://openreview.net/forum?id=QQS7TudonJ}
 }
 ```
 
