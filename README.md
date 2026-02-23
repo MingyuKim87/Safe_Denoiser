@@ -94,7 +94,7 @@ For convenience, the negative datapoints are released as two separate archives:
 - `nudity.tar.gz`
 - `inappropriate.tar.gz`
 
-Download: [Google Drive folder](https://drive.google.com/drive/folders/1Ij_4bxRCkIydHhRnEYEt_ZukVM3NwI1L?usp=sharing)
+Download: [Google Drive folder](https://drive.google.com/drive/folders/1PgBMbsjIygQ49qjiFFz9eF7IwNaPQ-ZW?usp=share_link)
 
 ### Download & Extract
   
@@ -139,7 +139,7 @@ datasets/
 ├── mma-diffusion-nsfw-adv-prompts.csv
 ├── nudity-ring-a-bell.csv
 └── nudity.csv
-
+```
 
 ## Quick Start
 We provide training scripts based on config files.  
