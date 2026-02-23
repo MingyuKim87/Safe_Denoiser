@@ -32,8 +32,8 @@ and [Mijung Park](https://www.cs.ubc.ca/people/mi-jung-park)<sup>1</sup> \
 
 ## News
 
-- (24.05.01) Our paper has been accepted in [**ICML 2024**](https://icml.cc/virtual/2024/poster/34866). 
-- (23.10.21) Our paper has been presented at [**NeurIPS2023 DeepInverse Workshop**](https://openreview.net/forum?id=28zXoRIcZd&referrer=%5Bthe%20profile%20of%20Mingyu%20Kim%5D(%2Fprofile%3Fid%3D~Mingyu_Kim2)).
+- (Sep. 2025) Our paper has been accepted in [**NeurIPS 2025**](https://neurips.cc/virtual/2025/loc/san-diego/poster/118136). 
+
 
 ## Environment Setup
 ```bash
