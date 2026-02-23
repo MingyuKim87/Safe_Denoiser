@@ -52,6 +52,46 @@ pip install -r requirements.txt
 
 This implementation utilizes the code bases of [SAFREE](https://github.com/jaehong31/SAFREE).
 
+## Checkpoints
+For evaluation, this repository uses pretrained checkpoints from the following projects: 
+- [NudeNet](https://github.com/notAI-tech/NudeNet)
+- [Q16](https://github.com/ml-research/Q16)
+- [Improved Aesthetic Predictor (AES)](https://github.com/christophschuhmann/improved-aesthetic-predictor)
+  
+For convenience, we provide all required checkpoints as a single compressed archive.
+- Download: [Google Drive folder](https://drive.google.com/drive/folders/1lWeQTqqv0UjH5caYPtsvotsc9xiSc5wa?usp=sharing)
+
+### Download & Extract
+
+Place `pretrained.tar.gz` at the repository root, then run:
+
+```bash
+mkdir -p pretrained
+tar -xzvf pretrained.tar.gz -C pretrained
+```
+
+pretrained/
+├── classifier_model.onnx
+├── diffusers-nudity-ESDu1-UNET.pt
+├── diffusers-nudity-RECE-UNET.pt
+├── Q16_prompts_finetuned.pt
+├── Q16_prompts_official.p
+├── Q16_prompts.p
+├── ResNet18_0.945223.pth
+├── sac+logos+ava1-l14-linearMSE.pth
+└── vehicle_yolov5_best.pt
+
+pretrained/
+├── classifier_model.onnx
+├── diffusers-nudity-ESDu1-UNET.pt
+├── diffusers-nudity-RECE-UNET.pt
+├── Q16_prompts_finetuned.pt
+├── Q16_prompts_official.p
+├── Q16_prompts.p
+├── ResNet18_0.945223.pth
+├── sac+logos+ava1-l14-linearMSE.pth
+└── vehicle_yolov5_best.pt
+
 ## Dataset
 For static NeRFs, this implementation utilizes [NeRF Synthetic](https://drive.google.com/drive/folders/128yBriW1IG_3NJ5Rp7APSTZsJqdJdfc1) and [TankandTemples](https://dl.fbaipublicfiles.com/nsvf/dataset/TanksAndTemple.zip). 
 ```bash
