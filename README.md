@@ -38,19 +38,19 @@ and [Mijung Park](https://www.cs.ubc.ca/people/mi-jung-park)<sup>1</sup> \
 ## Environment Setup
 ```bash
 # create conda environment
-conda create --name SynergyNeRF python=3.9
+conda create --name SafeDenoiser python=3.10
 
 # activate env
-conda activate SynergyNeRF
+conda activate SafeDenoiser
 
-# install pytorch >= 1.12 (e.g cu116)
-pip install torch==1.13.1+cu116 torchvision==0.14.1+cu116 --extra-index-url https://download.pytorch.org/whl/cu116
+# install pytorch >= 2.10 (e.g cu121)
+pip install torch==2.1.0+cu121 torchvision==0.16.0+cu121 --extra-index-url https://download.pytorch.org/whl/cu121
 
 # install packages
 pip install -r requirements.txt
 ```
 
-This implementation utilizes the code bases of [TensoRF](https://github.com/apchenstu/TensoRF) and [HexPlane](https://github.com/Caoang327/HexPlane).
+This implementation utilizes the code bases of [SAFREE](https://github.com/jaehong31/SAFREE).
 
 ## Dataset
 For static NeRFs, this implementation utilizes [NeRF Synthetic](https://drive.google.com/drive/folders/128yBriW1IG_3NJ5Rp7APSTZsJqdJdfc1) and [TankandTemples](https://dl.fbaipublicfiles.com/nsvf/dataset/TanksAndTemple.zip). 
