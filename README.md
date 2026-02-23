@@ -21,7 +21,7 @@ Official PyTorch implementation of **Safe Denoiser**, as presented in our paper:
 Amman Yusuf<sup>*1</sup>, [Stefano Ermon](https://cs.stanford.edu/~ermon/)<sup>*2</sup>
 and [Mijung Park](https://www.cs.ubc.ca/people/mi-jung-park)<sup>*1</sup> \
 <sup>1</sup>UBC AI, <sup>2</sup>Stanford CS \
-(<sup>*</sup> : Equally Contributed)
+(<sup>*</sup>: Equally Contributed)
 
 <img src="https://mingyukim87.github.io/SynergyNeRF/img/2_Overview_2.png" width="100%">  
 
