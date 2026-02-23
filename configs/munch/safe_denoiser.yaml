@@ -1,0 +1,23 @@
+repellency:
+  method: kernel_fast
+  n_embed: 8
+  params:
+    sigma : 13.15
+    scale: 9.0e-1
+    proj_ref_path : "caches/sd/munch/repellency_proj_ref.pt"
+    cache_proj_ref : False
+    proj_noisy_ref_path_for_beta : "caches/sd/munch/repellency_noisy_proj_ref_for_beta.pt"
+    cache_noisy_ref_path_for_beta : False
+    beta_threshold : 1.0e-9
+    beta_threshold_margin : 0.0 # >= 0.0
+
+# repellency dataset
+data:
+  name: nudity
+  root: datasets
+  class_info : munch
+
+# pred_xstart
+mean_processor:
+  dynamic_threshold: False
+  clip_denoised: True

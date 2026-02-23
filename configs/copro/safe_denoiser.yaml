@@ -1,0 +1,24 @@
+repellency:
+  method: kernel_fast
+  n_embed: 16
+  guidance_scale : 0.0
+  params:
+    scale: 0.03
+    sigma: 3.55
+    proj_ref_path : "caches/sd/i2p/repellency_proj_ref.pt"
+    cache_proj_ref : True
+    # proj_noisy_ref_path_for_beta : "caches/sd/i2p/repellency_noisy_proj_ref_for_beta.pt"
+    # cache_noisy_ref_path_for_beta : False
+    # # beta_threshold : 1.0e-9
+    # beta_threshold_margin: 1.6
+
+# repellency dataset
+data:
+  name: inappropriate
+  root: datasets/inappropriate
+  class_info : i2p
+
+# pred_xstart
+mean_processor:
+  dynamic_threshold: False
+  clip_denoised: True

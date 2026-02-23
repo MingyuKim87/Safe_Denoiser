@@ -1,0 +1,23 @@
+repellency:
+  method: sparse
+  n_embed: 8
+  params:
+    radius: 38.746
+    scale: 1.6
+    proj_ref_path : "caches/sd/i2p_sexual/repellency_proj_ref.pt"
+    cache_proj_ref : True
+    proj_noisy_ref_path_for_beta : "caches/sd/i2p/repellency_noisy_proj_ref_for_beta.pt"
+    cache_noisy_ref_path_for_beta : True
+    beta_threshold : True
+    radius_threshold_margin : 0.0 # >= 0.0
+
+# repellency dataset
+data:
+  name: nudity
+  root: datasets/nudity
+  class_info : i2p_sexual
+
+# pred_xstart
+mean_processor:
+  dynamic_threshold: False
+  clip_denoised: True
