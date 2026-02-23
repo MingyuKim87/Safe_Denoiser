@@ -133,13 +133,13 @@ python main.py --config=config/SynergyNeRF/official/{scene}.yaml
 
 ## Bibliography
 ```bibtext
-@InProceedings{kim2024synergistic,
-  author    = {Kim, Mingyu and Kim, Jun Seong and Yun, Se Young and Kim, Jin Hwa},  
-  title     = {Synergistic Integration of Coordinate Network and Tensorial Feature for Improving NeRFs from Sparse Inputs},  
-  booktitle = {Proceedings of the 41th International Conference on Machine Learning},
-  year      = {2024},
-  series    = {Proceedings of Machine Learning Research},
-  publisher = {PMLR},  
+@inproceedings{
+kim2025trainingfree,
+title={Training-Free Safe Denoisers for Safe Use of Diffusion Models},
+author={Mingyu Kim and Dongjun Kim and Amman Yusuf and Stefano Ermon and Mijung Park},
+booktitle={The Thirty-ninth Annual Conference on Neural Information Processing Systems},
+year={2025},
+url={https://openreview.net/forum?id=QQS7TudonJ}
 }
 ```
 
