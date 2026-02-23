@@ -1,6 +1,6 @@
 <div align="center">
 
-# Safe Denoiser 
+# Safe Denoiser (NeurIPS2025)
 
 <p align="center">
   <!-- [<a href="https://arxiv.org/pdf/2306.16928.pdf"><strong>Paper</strong></a>] -->
