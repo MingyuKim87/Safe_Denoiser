@@ -26,9 +26,9 @@ and [Mijung Park](https://www.cs.ubc.ca/people/mi-jung-park)<sup>1</sup> \
 <img src="assets/thumbnail.png" width="100%">  
 
 ## Update
-- [x] Nudity (Ring-A-bell, UnlearnDiffAtk, MMA-Diffusion).
-- [x] Inappropriate Prob. (CoPro).
-- [x] Negative Datasets (Nudity, Inappropriate Prob.).
+- [x] Nudity Task (Ring-A-bell, UnlearnDiffAtk, MMA-Diffusion).
+- [x] Inappropriate Prob. Task (CoPro).
+- [x] Negative Datapoints (Nudity, Inappropriate Prob.).
 
 ## News
 
