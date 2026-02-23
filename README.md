@@ -20,7 +20,7 @@ Official PyTorch implementation of **Safe Denoiser**, as presented in our paper:
 [Mingyu Kim](https://mingyukim87.github.io/)<sup>*1</sup>, [Dongjun Kim](https://sites.google.com/view/dongjun-kim)<sup>*2</sup>, 
 Amman Yusuf<sup>1</sup>, [Stefano Ermon](https://cs.stanford.edu/~ermon/)<sup>2</sup>
 and [Mijung Park](https://www.cs.ubc.ca/people/mi-jung-park)<sup>1</sup> \
-<sup>1</sup>UBC AI, <sup>2</sup>Stanford CS \
+<sup>1</sup>UBC CS, <sup>2</sup>Stanford CS \
 (<sup>\*</sup>: Equally Contributed)
 
 <img src="assets/thumbnail.png" width="100%">  
