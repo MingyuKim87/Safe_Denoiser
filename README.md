@@ -70,17 +70,9 @@ mkdir -p pretrained
 tar -xzvf pretrained.tar.gz -C pretrained
 ```
 
-pretrained/
-├── classifier_model.onnx
-├── diffusers-nudity-ESDu1-UNET.pt
-├── diffusers-nudity-RECE-UNET.pt
-├── Q16_prompts_finetuned.pt
-├── Q16_prompts_official.p
-├── Q16_prompts.p
-├── ResNet18_0.945223.pth
-├── sac+logos+ava1-l14-linearMSE.pth
-└── vehicle_yolov5_best.pt
+Expected directory structure:
 
+```text
 pretrained/
 ├── classifier_model.onnx
 ├── diffusers-nudity-ESDu1-UNET.pt
@@ -91,6 +83,7 @@ pretrained/
 ├── ResNet18_0.945223.pth
 ├── sac+logos+ava1-l14-linearMSE.pth
 └── vehicle_yolov5_best.pt
+```
 
 ## Dataset
 For static NeRFs, this implementation utilizes [NeRF Synthetic](https://drive.google.com/drive/folders/128yBriW1IG_3NJ5Rp7APSTZsJqdJdfc1) and [TankandTemples](https://dl.fbaipublicfiles.com/nsvf/dataset/TanksAndTemple.zip). 
