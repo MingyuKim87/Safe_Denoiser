@@ -141,28 +141,250 @@ datasets/
 └── nudity.csv
 ```
 
-## Quick Start
-We provide training scripts based on config files.  
-First, we illustrate training static NeRFs for nerf_synthetic and tankandtemples.  
-To run this code on GPUs with 24GB of VRAM, you should use the configuration files located in `config/SynergyNeRF/revised_cfg/`.  
-If you want to run the code as described in the original paper,  
-please use the configuration files found in `config/SynergyNeRF_disentangled/official/`.  
-```bash
-# training nerf_synthetic
-cd SynergyNeRF_3D 
-# scenes : {chair, drums, ficus, lego, hotdog, materials, mic, ship}
-python main.py --config=config/SynergyNeRF/revised_cfg/8_views/{scene}.yaml
+## Cached repellency projection references (recommended)
 
-# training tankandtemples
-# scenes : {barn, caterpillar, family, truck}
-python main.py --config=config/SynergyNeRF/tankandtemples_cfgs/{scene}.yaml
+Some experiments use a **precomputed repellency projection reference** (`repellency_proj_ref.pt`) to avoid recomputing it at runtime.
+We provide these cache files as a Google Drive folder.
+
+Download: [Google Drive folder](https://drive.google.com/drive/folders/1lWeQTqqv0UjH5caYPtsvotsc9xiSc5wa?usp=share_link)
+
+### Expected directory structure
+
+Place the downloaded folder under the repository root so that the following paths exist:
+
+```text
+caches/
+├── sd/
+│   ├── ann/
+│   │   └── repellency_proj_ref.pt
+│   ├── i2p/
+│   │   └── repellency_proj_ref.pt
+│   ├── i2p_sexual/
+│   │   ├── repellency_proj_ref.pt
+│   │   └── repellency_noisy_proj_ref_for_beta.pt
+│   └── munch/
+│       └── repellency_proj_ref.pt
+└── sdv3/
+    └── i2p_sexual/
+        └── repellency_proj_ref.pt
 ```
-Second, we illustrate training dynamic NeRFs for the D-NeRF dataset.
+
+### Usage in configs
+
+For example, `configs/nudity/safe_denoiser.yaml` points to the cached reference as follows:
+
+```yaml
+repellency:
+  proj_ref_path: "caches/sd/i2p_sexual/repellency_proj_ref.pt"
+  cache_proj_ref: True
+```
+
+## Run
+This section provides minimal commands to reproduce the main evaluation runs.
+All runs assume that you have already downloaded and placed:
+- `pretrained/` checkpoints (see **Checkpoints**),
+- negative datapoints under `datasets/` (see **Negative Datapoints**),
+- cached projection references under `caches/` (optional but recommended; see **Cached repellency projection references**).
+
+The script reads prompts from `--data` (CSV), generates images with the selected safety method (`--erase_id`), and evaluates nudity using NudeNet (`--nudenet-path`).
+Outputs (generated images and logs/metrics) are saved to `--save-dir`.
+
+### Key arguments (quick guide)
+
+- `--data`: CSV file containing prompts for evaluation (e.g., Ring-A-Bell).
+- `--category`: evaluation task type (e.g., `nudity`).
+- `--task_config`: task-specific config for Safe Denoiser / repellency settings (YAML).
+- `--erase_id`: which safety method to run (e.g., `safree_neg_prompt_rep_threshold_time`).
+- `--config`: base config for prompt handling / negative prompt setup (JSON).
+- `--num_inference_steps`: diffusion sampling steps.
+- `--guidance_scale`: classifier-free guidance scale (CFG).
+- `--safe_level`: safety strength for SLD-style baselines (kept for compatibility; only used by relevant methods).
+- `--nudenet-path`, `--nudity_thr`: NudeNet checkpoint path and nudity threshold for evaluation.
+- `--save-dir`: output directory.
+
+### Nudity (SD-v1.4)
+
+This script evaluates the nudity task on different prompt sets by switching `--data`.
+
+**Supported prompt sets**
+- Ring-A-Bell: `datasets/nudity-ring-a-bell.csv`
+- UnlearnDiffAtk: `datasets/nudity.csv`
+- MMA-Diffusion: `datasets/mma-diffusion-nsfw-adv-prompts.csv`
+
 ```bash
-# training nerf_synthetic
-cd SynergyNeRF_4D 
-# scenes : {bouncingballs, hellwarrior, hook, jumpingjacks, lego, mutant, standup, trex}
-python main.py --config=config/SynergyNeRF/official/{scene}.yaml
+# Example: Ring-A-Bell
+python run_nudity.py \
+  --nudenet-path=pretrained/classifier_model.onnx \
+  --nudity_thr=0.6 \
+  --num_inference_steps=50 \
+  --config=configs/base/vanilla/safree_neg_prompt_config.json \
+  --safe_level=MEDIUM \
+  --data=datasets/nudity-ring-a-bell.csv \
+  --category=nudity \
+  --task_config=configs/nudity/safe_denoiser.yaml \
+  --save-dir=results/safe_denoiser/sdv1/nudity \
+  --erase_id=safree_neg_prompt_rep_threshold_time
+```
+
+### Inappropriate Probability (SD-v1.4)
+
+This script evaluates the **inappropriate probability** task on CoPro prompts by setting `--category=all` and switching `--data`.
+
+**Supported prompt sets**
+- CoPro: `datasets/CoPro_balanced_10k.csv`
+
+```bash
+# Example: CoPro (10k balanced)
+python run_copro.py \
+  --nudenet-path=pretrained/classifier_model.onnx \
+  --nudity_thr=0.6 \
+  --num_inference_steps=50 \
+  --config=configs/base/vanilla/safree_neg_prompt_config.json \
+  --safe_level=MEDIUM \
+  --data=datasets/CoPro_balanced_10k.csv \
+  --category=all \
+  --task_config=configs/copro/safe_denoiser.yaml \
+  --save-dir=results/safe_denoiser/sdv1/copro \
+  --erase_id=safree_neg_prompt_rep_time \
+  --guidance_scale=7.5
+```
+
+### COCO-30k Prompts (SD-v1.4)
+
+This run generates images from **COCO-30k** prompts by setting `--category=coco`.
+It uses the same base setup as the nudity runs (same `--config`, sampling steps, and safety method), but switches the task to COCO prompts.
+
+```bash
+python run_coco30k.py \
+  --nudenet-path=pretrained/classifier_model.onnx \
+  --nudity_thr=0.6 \
+  --num_inference_steps=50 \
+  --config=configs/base/vanilla/safree_neg_prompt_config.json \
+  --safe_level=MEDIUM \
+  --category=coco \
+  --task_config=configs/coco/safe_denoiser.yaml \
+  --save-dir=results/safe_denoiser/sdv1/coco \
+  --erase_id=safree_neg_prompt_rep_threshold_time \
+  --guidance_scale=7.5
+```
+
+### Memorized Prompts: Ann Graham Lotz (SD-v1.4)
+
+This run generates images from the **memorized prompt set** for *Ann Graham Lotz* by setting
+`--category=artists-AnnGrahamLotz`. Outputs are saved to the directory specified by `--save-dir`.
+
+```bash
+python run_ann_graham.py \
+  --nudenet-path=pretrained/classifier_model.onnx \
+  --nudity_thr=0.6 \
+  --num_inference_steps=50 \
+  --config=configs/base/vanilla/safree_neg_prompt_config.json \
+  --safe_level=MEDIUM \
+  --category=artists-AnnGrahamLotz \
+  --task_config=configs/ann_graham/safe_denoiser.yaml \
+  --save-dir=results/safe_denoiser/sdv1/ann_graham_lotz \
+  --erase_id=std_rep \
+  --seed=42 \
+  --guidance_scale=3.5
+```
+
+### Memorized Prompts: *The Scream* (Edvard Munch, SD-v1.4)
+
+This run generates images from the **memorized prompt set** for *The Scream* by setting
+`--category=artists-Munch`. It uses the Ring-A-Bell prompt list (`datasets/nudity-ring-a-bell.csv`) and saves outputs to the directory specified by `--save-dir`.
+
+```bash
+python run_munch.py \
+  --nudenet-path=pretrained/classifier_model.onnx \
+  --nudity_thr=0.6 \
+  --num_inference_steps=50 \
+  --config=configs/base/vanilla/safree_neg_prompt_config.json \
+  --safe_level=MEDIUM \
+  --data=datasets/nudity-ring-a-bell.csv \
+  --category=artists-Munch \
+  --task_config=configs/munch/safe_denoiser.yaml \
+  --save-dir=results/safe_denoiser/sdv1/munch \
+  --erase_id=std_rep \
+  --seed=42 \
+  --guidance_scale=2.0
+```
+
+### Nudity (SD-v3)
+
+This run evaluates the nudity task on **Stable Diffusion 3** by switching `--model_id` and using the SDv3 task config.
+
+```bash
+# Example: Ring-A-Bell (SD-v3)
+python run_nudity_sdv3.py \
+  --nudenet-path=pretrained/classifier_model.onnx \
+  --nudity_thr=0.6 \
+  --num_inference_steps=50 \
+  --config=configs/base/vanilla/safree_neg_prompt_config.json \
+  --safe_level=MEDIUM \
+  --data=datasets/nudity-ring-a-bell.csv \
+  --category=nudity \
+  --task_config=configs/nudity/safe_denoiser_sdv3.yaml \
+  --save-dir=results/safe_denoiser/sdv3/nudity \
+  --erase_id=safree_neg_prompt_rep_time \
+  --guidance_scale=2.5 \
+  --model_id=stabilityai/stable-diffusion-3-medium-diffusers
+```
+
+### COCO-30k Prompts (SD-v3)
+
+This run generates images from **COCO-30k** prompts by setting `--category=coco`.
+It uses the SD-v3 model (`--model_id`) and the SDv3 task config, and saves outputs to the directory specified by `--save-dir`.
+
+```bash
+python run_coco30k.py \
+  --nudenet-path=pretrained/classifier_model.onnx \
+  --nudity_thr=0.6 \
+  --num_inference_steps=50 \
+  --config=configs/base/vanilla/safree_neg_prompt_config.json \
+  --safe_level=MEDIUM \
+  --data=datasets/nudity-ring-a-bell.csv \
+  --category=coco \
+  --task_config=configs/nudity/safe_denoiser_sdv3.yaml \
+  --save-dir=results/safe_denoiser/sdv3/coco_30k \
+  --erase_id=safree_neg_prompt_rep_time \
+  --guidance_scale=3.5 \
+  --model_id=stabilityai/stable-diffusion-3-medium-diffusers
+```
+
+## Evaluation
+
+### FID and CLIP Score
+
+We provide a simple evaluation script for **COCO-30k** generations that reports **FID** and **CLIP Score**.
+
+Run:
+```bash
+python evaluate_coco30k_fid_clip.py --target_path <PATH_TO_GENERATED_RESULTS>
+```
+
+- `--target_path` should point to the same directory used in `--save-dir` during the generation run.
+
+```bash
+# Evaluation (FID, CLIP Score)
+python evaluate_coco30k_fid_clip.py \
+  --target_path results/safe_denoiser/sdv1/coco
+```
+
+### CLIP Score and AES score
+
+We provide a simple evaluation script for **CoPro** generations that reports **AES Score** and **CLIP Score**.
+
+Run:
+```bash
+python evaluate_copro_aes_clip.py --target_path <PATH_TO_GENERATED_RESULTS>
+```
+
+- `--target_path` should point to the same directory used in `--save-dir` during the generation run.
+
+```bash
+# Evaluation (AES, CLIP Score)
+python evaluate_copro_aes_clip.py \
+  --target_path results/safe_denoiser/sdv1/copro
 ```
 
 ## Bibliography
@@ -178,6 +400,10 @@ python main.py --config=config/SynergyNeRF/official/{scene}.yaml
 ```
 
 ## Acknowledgement
-This work was supported by Institute of Information & communications Technology Planning & Evaluation (IITP) grant funded by the Korea government(MSIT) [No.2022-0-00641, XVoice: Multi-Modal Voice Meta Learning]. 
-A portion of this work was carried out during an internship at <a href="https://naver-career.gitbook.io/en/teams/clova-cic/ai-lab" target="_blank">NAVER AI Lab</a>.
-We also extend our gratitude to <a href="https://actnova.io" target="_blank">ACTNOVA</a> for providing the computational resources required.
+We thank our anonymous reviewers for their constructive feedback, which has helped significantly improve
+our paper. We thank the Digital Research Alliance of Canada (Compute Canada) for its computational
+resources and services. 
+M. Kim was supported by the Canada CIFAR AI Safety Catalyst grant. 
+A. Yusuf was funded by the Canada Graduate Scholarships — Master’s program of the Natural Sciences and Engineering Research Council of Canada (NSERC). 
+M. Park was supported in part by the Natural Sciences and Engineering
+Research Council of Canada (NSERC) and the Canada CIFAR AI Chairs program.
