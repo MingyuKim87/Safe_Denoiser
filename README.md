@@ -59,7 +59,7 @@ For evaluation, this repository uses pretrained checkpoints from the following p
 - [Improved Aesthetic Predictor (AES)](https://github.com/christophschuhmann/improved-aesthetic-predictor)
   
 For convenience, we provide all required checkpoints as a single compressed archive.
-- Download: [Google Drive folder](https://drive.google.com/drive/folders/1lWeQTqqv0UjH5caYPtsvotsc9xiSc5wa?usp=sharing)
+- Download: [Google Drive folder](https://drive.google.com/drive/folders/1Ij_4bxRCkIydHhRnEYEt_ZukVM3NwI1L?usp=sharing)
 
 ### Download & Extract
 
